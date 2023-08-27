@@ -1,0 +1,16 @@
+<main>
+  <!-- food random detail -->
+  <section class="bg-slate-400">
+    <h2 class="font-bold text-3xl">RANDOM FOOD</h2>
+    <p>Title: {{randomFood.title}}</p>
+    <p>Category: {{randomFood.category}}</p>
+    <p>Area: {{randomFood.area}}</p>
+    <p>Instructions: {{randomFood.instructions}}</p>
+  </section>
+
+  <!-- food grid -->
+  <section>
+    <h2 class="font-bold text-3xl">FOOD CATALOG</h2>
+    <app-food-card [food]="food" *ngFor="let food of foods"></app-food-card>
+  </section>
+</main>
