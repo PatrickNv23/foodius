@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { Food } from 'src/app/core/models/food';
 
 @Component({
@@ -9,4 +10,12 @@ import { Food } from 'src/app/core/models/food';
 export class FoodCardComponent {
 
   @Input({ required: true }) food = new Food()
+
+  constructor(private router: Router) {
+
+  }
+
+  navigateToDetails(id: String) {
+    this.router.navigate([`foods/${id}`])
+  }
 }

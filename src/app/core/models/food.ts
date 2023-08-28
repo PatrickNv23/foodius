@@ -6,4 +6,6 @@ export class Food {
   instructions !: String
   imageUrl !: String
   youtubeUrl !: String
+  ingredients !: Array<String>
+  tags !: Array<String>
 }

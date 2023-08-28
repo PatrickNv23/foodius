@@ -6,6 +6,16 @@
     <p>Category: {{randomFood.category}}</p>
     <p>Area: {{randomFood.area}}</p>
     <p>Instructions: {{randomFood.instructions}}</p>
+
+    <div>
+      <h2 class="text-2xl font-bold">INGREDIENTS</h2>
+      <ul>
+        <ng-container *ngFor="let ingredient of randomFood.ingredients">
+          <li>- {{ingredient}}</li>
+        </ng-container>
+      </ul>
+
+    </div>
   </section>
 
   <!-- food grid -->

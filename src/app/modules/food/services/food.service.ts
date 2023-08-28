@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
-import { API_URL } from 'src/app/core/constants/constanst';
+import { API_URL, STRING_INGREDIENT_PROPERTY } from 'src/app/core/constants/constanst';
 import { Food } from 'src/app/core/models/food';
 
 @Injectable({
@@ -26,6 +26,8 @@ export class FoodService {
         randomFood.instructions = result.meals[0].strInstructions
         randomFood.imageUrl = result.meals[0].strMealThumb
         randomFood.youtubeUrl = result.meals[0].strYoutube
+        randomFood.ingredients = this.getIngredientsFromOneFood(result.meals[0])
+        randomFood.tags = this.getTags(result.meals[0])
 
         return randomFood
       })
@@ -37,11 +39,11 @@ export class FoodService {
     return this.http.get<Array<Food>>(`${API_URL}/search.php?f=${letter}`).pipe(
       map((results: any) => {
 
-        let food = new Food()
         let foods = new Array<Food>()
 
         Array.from(results.meals).forEach((result: any) => {
 
+          let food = new Food()
           food.id = result.idMeal
           food.title = result.strMeal
           food.category = result.strCategory
@@ -56,6 +58,51 @@ export class FoodService {
         return foods
       })
     )
+  }
+
+  getFoodById(id: String): Observable<Food> {
+    return this.http.get<Food>(`${API_URL}/lookup.php?i=${id}`).pipe(
+      map((result: any) => {
+
+        let food = new Food()
+        food.id = result.meals[0].idMeal
+        food.title = result.meals[0].strMeal
+        food.category = result.meals[0].strCategory
+        food.area = result.meals[0].strArea
+        food.instructions = result.meals[0].strInstructions
+        food.imageUrl = result.meals[0].strMealThumb
+        food.youtubeUrl = result.meals[0].strYoutube
+        food.ingredients = this.getIngredientsFromOneFood(result.meals[0])
+        food.tags = this.getTags(result.meals[0])
+
+        return food
+      })
+    )
+  }
+
+  getIngredientsFromOneFood(result: any): Array<String> {
+
+    let ingredientProperties: Array<String> = new Array<String>()
+    let ingredientValues: Array<String> = new Array<String>()
+
+    Object.keys(result).forEach((foodProperty) => {
+      if (foodProperty.includes(`${STRING_INGREDIENT_PROPERTY}`)) {
+        ingredientProperties.push(foodProperty)
+      }
+    })
+
+    ingredientProperties.forEach((ingredientProperty) => {
+      let ingredient: any = result[`${ingredientProperty}`]
+      if (ingredient != null && ingredient !== "") {
+        ingredientValues.push(ingredient)
+      }
+    })
+
+    return ingredientValues
+  }
+
+  getTags(result: any): Array<String> {
+    return result.strTags && result.strTags.split(",")
   }
 
 }

@@ -1,1 +1,16 @@
-<p>food-detail works!</p>
+<section class="bg-slate-400">
+  <h2 class="font-bold text-3xl">FOOD DETAILS: {{food.title}}</h2>
+  <p>Category: {{food.category}}</p>
+  <p>Area: {{food.area}}</p>
+  <p>Instructions: {{food.instructions}}</p>
+
+  <div>
+    <h2 class="text-2xl font-bold">INGREDIENTS</h2>
+    <ul>
+      <ng-container *ngFor="let ingredient of food.ingredients">
+        <li>- {{ingredient}}</li>
+      </ng-container>
+    </ul>
+
+  </div>
+</section>
