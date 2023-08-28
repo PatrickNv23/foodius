@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { API_URL, STRING_INGREDIENT_PROPERTY } from 'src/app/core/constants/constanst';
+import { Category } from 'src/app/core/models/category';
 import { Food } from 'src/app/core/models/food';
+import { Ingredient } from 'src/app/core/models/ingredient';
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +78,52 @@ export class FoodService {
         food.tags = this.getTags(result.meals[0])
 
         return food
+      })
+    )
+  }
+
+  getFirstTenCategories(): Observable<Array<Category>> {
+    return this.http.get<Array<Category>>(`${API_URL}/categories.php`).pipe(
+      map((result: any) => {
+        let categories: Array<Category> = new Array<Category>()
+
+        Array.from(result.categories).forEach((data: any) => {
+          let category: Category = new Category()
+          category.id = data.idCategory
+          category.title = data.strCategory
+          category.imageUrl = data.strCategoryThumb
+          category.description = data.strCategoryDescription
+
+          categories.push(category)
+        })
+
+        return categories.slice(0, 10)
+      })
+    )
+  }
+
+  getFirstTenAreas(): Observable<any> {
+    return this.http.get<any>(`${API_URL}/list.php?a=list`).pipe(
+      map((result) => result.meals.slice(0, 10))
+    )
+  }
+
+  getFirstTenIngredients(): Observable<Array<Ingredient>> {
+    return this.http.get<Array<Ingredient>>(`${API_URL}/list.php?i=list`).pipe(
+      map((result: any) => {
+        let ingredients: Array<Ingredient> = new Array<Ingredient>()
+
+        Array.from(result.meals).forEach((data: any) => {
+          let ingredient: Ingredient = new Ingredient()
+          ingredient.id = data.idIngredient
+          ingredient.title = data.strIngredient
+          ingredient.description = data.strDescription
+          ingredient.type = data.strType
+
+          ingredients.push(ingredient)
+        })
+
+        return ingredients.slice(0, 10)
       })
     )
   }

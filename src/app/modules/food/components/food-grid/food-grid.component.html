@@ -18,6 +18,30 @@
     </div>
   </section>
 
+  <!-- filtros -->
+  <section>
+    <select class="mx-2">
+      <option value="">Elige una categoría</option>
+      <option [value]="category.title" *ngFor="let category of categories">
+        {{category.title}}
+      </option>
+    </select>
+
+    <select class="mx-2">
+      <option value="">Elige un área</option>
+      <option [value]="area.strArea" *ngFor="let area of areas">
+        {{area.strArea}}
+      </option>
+    </select>
+
+    <select class="mx-2">
+      <option value="">Elige una ingrediente</option>
+      <option [value]="ingredient.title" *ngFor="let ingredient of ingredients">
+        {{ingredient.title}}
+      </option>
+    </select>
+  </section>
+
   <!-- food grid -->
   <section>
     <h2 class="font-bold text-3xl">FOOD CATALOG</h2>
