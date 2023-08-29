@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { map, take } from 'rxjs/operators';
+import { map, share } from 'rxjs/operators';
 import { API_URL, STRING_INGREDIENT_PROPERTY } from 'src/app/core/constants/constanst';
 import { Category } from 'src/app/core/models/category';
 import { Food } from 'src/app/core/models/food';
@@ -14,6 +14,8 @@ export class FoodService {
 
 
   http: HttpClient = inject(HttpClient)
+
+  // GET BASIC ENDPOINTS (RANDOMFOOD, FOODS, FOOD_BY_ID)
 
   getRandomFood(): Observable<Food> {
 
@@ -32,7 +34,8 @@ export class FoodService {
         randomFood.tags = this.getTags(result.meals[0])
 
         return randomFood
-      })
+      }),
+      share()
     )
   }
 
@@ -58,7 +61,8 @@ export class FoodService {
         })
 
         return foods
-      })
+      }),
+      share()
     )
   }
 
@@ -78,9 +82,12 @@ export class FoodService {
         food.tags = this.getTags(result.meals[0])
 
         return food
-      })
+      }),
+      share()
     )
   }
+
+  // GET DATA TO SELECTS (CATEGORIES, AREAS, INGREDIENTS)
 
   getFirstTenCategories(): Observable<Array<Category>> {
     return this.http.get<Array<Category>>(`${API_URL}/categories.php`).pipe(
@@ -98,13 +105,15 @@ export class FoodService {
         })
 
         return categories.slice(0, 10)
-      })
+      }),
+      share()
     )
   }
 
   getFirstTenAreas(): Observable<any> {
     return this.http.get<any>(`${API_URL}/list.php?a=list`).pipe(
-      map((result) => result.meals.slice(0, 10))
+      map((result) => result.meals.slice(0, 10)),
+      share()
     )
   }
 
@@ -124,9 +133,101 @@ export class FoodService {
         })
 
         return ingredients.slice(0, 10)
-      })
+      }),
+      share()
     )
   }
+
+  // FILTERS (NAME, CATEGORY, AREA, INGREDIENT)
+
+  getFoodByName(name: String): Observable<Food> {
+    return this.http.get<Food>(`${API_URL}/search.php?s=${name}`).pipe(
+      map((result: any) => {
+
+        let food = new Food()
+        food.id = result.meals[0].idMeal
+        food.title = result.meals[0].strMeal
+        food.category = result.meals[0].strCategory
+        food.area = result.meals[0].strArea
+        food.instructions = result.meals[0].strInstructions
+        food.imageUrl = result.meals[0].strMealThumb
+        food.youtubeUrl = result.meals[0].strYoutube
+        food.ingredients = this.getIngredientsFromOneFood(result.meals[0])
+        food.tags = this.getTags(result.meals[0])
+
+        return food
+      }),
+      share()
+    )
+  }
+
+  findByCategory(category: String): Observable<Array<Food>> {
+    return this.http.get<Array<Food>>(`${API_URL}/filter.php?c=${category}`).pipe(
+      map((results: any) => {
+
+        let foods = new Array<Food>()
+
+        Array.from(results.meals).forEach((result: any) => {
+
+          let food = new Food()
+          food.id = result.idMeal
+          food.title = result.strMeal
+          food.imageUrl = result.strMealThumb
+
+          foods.push(food)
+        })
+
+        return foods
+      }),
+      share()
+    )
+  }
+
+  findByArea(area: String): Observable<Array<Food>> {
+    return this.http.get<Array<Food>>(`${API_URL}/filter.php?a=${area}`).pipe(
+      map((results: any) => {
+
+        let foods = new Array<Food>()
+
+        Array.from(results.meals).forEach((result: any) => {
+
+          let food = new Food()
+          food.id = result.idMeal
+          food.title = result.strMeal
+          food.imageUrl = result.strMealThumb
+
+          foods.push(food)
+        })
+
+        return foods
+      }),
+      share()
+    )
+  }
+
+  findByMainIngredient(mainIngredient: String): Observable<Array<Food>> {
+    return this.http.get<Array<Food>>(`${API_URL}/filter.php?i=${mainIngredient}`).pipe(
+      map((results: any) => {
+
+        let foods = new Array<Food>()
+
+        Array.from(results.meals).forEach((result: any) => {
+
+          let food = new Food()
+          food.id = result.idMeal
+          food.title = result.strMeal
+          food.imageUrl = result.strMealThumb
+
+          foods.push(food)
+        })
+
+        return foods
+      }),
+      share()
+    )
+  }
+
+  // TRANSFORMS 
 
   getIngredientsFromOneFood(result: any): Array<String> {
 

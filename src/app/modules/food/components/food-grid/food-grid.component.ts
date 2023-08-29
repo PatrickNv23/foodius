@@ -107,4 +107,46 @@ export class FoodGridComponent implements OnInit {
       }
     })
   }
+
+  filterFoodsByCategory(category: String) {
+    this.foodService.findByCategory(category).subscribe({
+      next: (foods: Array<Food>) => {
+        this.foods = foods
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error(`Sucedió un error: ${error.message}`)
+      },
+      complete: () => {
+        console.log("Cerrar spinner")
+      }
+    })
+  }
+
+  filterFoodsByArea(area: String) {
+    this.foodService.findByArea(area).subscribe({
+      next: (foods: Array<Food>) => {
+        this.foods = foods
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error(`Sucedió un error: ${error.message}`)
+      },
+      complete: () => {
+        console.log("Cerrar spinner")
+      }
+    })
+  }
+
+  filterFoodsByIngredient(ingredient: String) {
+    this.foodService.findByMainIngredient(ingredient).subscribe({
+      next: (foods: Array<Food>) => {
+        this.foods = foods
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error(`Sucedió un error: ${error.message}`)
+      },
+      complete: () => {
+        console.log("Cerrar spinner")
+      }
+    })
+  }
 }

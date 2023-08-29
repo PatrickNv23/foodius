@@ -20,21 +20,21 @@
 
   <!-- filtros -->
   <section>
-    <select class="mx-2">
+    <select #filterCategory class="mx-2" (change)="filterFoodsByCategory(filterCategory.value)">
       <option value="">Elige una categoría</option>
       <option [value]="category.title" *ngFor="let category of categories">
         {{category.title}}
       </option>
     </select>
 
-    <select class="mx-2">
+    <select #filterArea class="mx-2" (change)="filterFoodsByArea(filterArea.value)">
       <option value="">Elige un área</option>
       <option [value]="area.strArea" *ngFor="let area of areas">
         {{area.strArea}}
       </option>
     </select>
 
-    <select class="mx-2">
+    <select #filterIngredient class="mx-2" (change)="filterFoodsByIngredient(filterIngredient.value)">
       <option value="">Elige una ingrediente</option>
       <option [value]="ingredient.title" *ngFor="let ingredient of ingredients">
         {{ingredient.title}}
