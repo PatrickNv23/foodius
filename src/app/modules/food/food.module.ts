@@ -6,6 +6,9 @@ import { FoodDetailComponent } from './components/food-detail/food-detail.compon
 import { FoodCardComponent } from './components/food-card/food-card.component';
 import { FoodGridComponent } from './components/food-grid/food-grid.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+
 
 @NgModule({
   declarations: [
@@ -16,7 +19,9 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     CommonModule,
     FoodRoutingModule,
-    HttpClientModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    NgxSpinnerModule
   ]
 })
 export class FoodModule { }

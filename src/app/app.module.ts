@@ -14,7 +14,7 @@ import { FoodModule } from './modules/food/food.module';
     BrowserModule,
     AppRoutingModule,
     SharedModule,
-    FoodModule
+    FoodModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

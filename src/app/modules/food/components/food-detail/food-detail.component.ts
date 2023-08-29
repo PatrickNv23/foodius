@@ -3,24 +3,28 @@ import { ActivatedRoute } from '@angular/router';
 import { FoodService } from '../../services/food.service';
 import { Food } from 'src/app/core/models/food';
 import { HttpErrorResponse } from '@angular/common/http';
+import { SpinnerAbstraction } from 'src/app/core/abstractions/spinner.abstraction';
 
 @Component({
   selector: 'app-food-detail',
   templateUrl: './food-detail.component.html',
   styleUrls: ['./food-detail.component.css']
 })
-export class FoodDetailComponent implements OnInit {
+export class FoodDetailComponent extends SpinnerAbstraction implements OnInit {
 
-  activatedRoute = inject(ActivatedRoute)
-  foodService = inject(FoodService)
+  activatedRoute: ActivatedRoute = inject(ActivatedRoute)
+  foodService: FoodService = inject(FoodService)
   foodId !: String
   food !: Food
 
   constructor() {
+    super()
     this.food = new Food()
   }
 
   ngOnInit(): void {
+
+    this.spinner.show()
 
     this.foodId = this.activatedRoute.snapshot.paramMap.get('id') as String
     this.foodService.getFoodById(this.foodId).subscribe({
@@ -29,9 +33,11 @@ export class FoodDetailComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         console.error(`Sucedió un error: ${error.message}`)
+        this.closeSpinnerWithDelay()
+
       },
       complete: () => {
-        console.log("Cerrar spinner")
+        this.closeSpinnerWithDelay()
       }
     })
 
