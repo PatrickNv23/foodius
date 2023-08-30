@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { map, share } from 'rxjs/operators';
+import { catchError, map, share } from 'rxjs/operators';
 import { API_URL, STRING_INGREDIENT_PROPERTY } from 'src/app/core/constants/constanst';
 import { Category } from 'src/app/core/models/category';
 import { Food } from 'src/app/core/models/food';
@@ -70,7 +70,7 @@ export class FoodService {
   getFoodById(id: String): Observable<Food> {
     return this.http.get<Food>(`${API_URL}/lookup.php?i=${id}`).pipe(
       map((result: any) => {
-
+        console.log(result)
         let food = new Food()
         food.id = result.meals[0].idMeal
         food.title = result.meals[0].strMeal

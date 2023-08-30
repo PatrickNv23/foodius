@@ -4,16 +4,16 @@ import { Food } from 'src/app/core/models/food';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Category } from 'src/app/core/models/category';
 import { Ingredient } from 'src/app/core/models/ingredient';
-import { SpinnerAbstraction } from 'src/app/core/abstractions/spinner.abstraction';
+import { UtilsAbstraction } from 'src/app/core/abstractions/utils.abstraction';
 
 @Component({
   selector: 'app-food-grid',
   templateUrl: './food-grid.component.html',
   styleUrls: ['./food-grid.component.css']
 })
-export class FoodGridComponent extends SpinnerAbstraction implements OnInit {
+export class FoodGridComponent extends UtilsAbstraction implements OnInit {
 
-  foodService: FoodService = inject(FoodService)
+  private foodService: FoodService = inject(FoodService)
 
   randomFood !: Food
   foods !: Array<Food>
@@ -50,11 +50,9 @@ export class FoodGridComponent extends SpinnerAbstraction implements OnInit {
         this.randomFood = result
       },
       error: (error: HttpErrorResponse) => {
-        console.error(`Sucedió un error: ${error.message}`)
+        this.showErrorAlert(error.message)
       },
-      complete: () => {
-        console.log("Cerrar spinner")
-      }
+      complete: () => { }
     })
   }
 
@@ -64,11 +62,9 @@ export class FoodGridComponent extends SpinnerAbstraction implements OnInit {
         this.foods = result
       },
       error: (error: HttpErrorResponse) => {
-        console.error(`Sucedió un error: ${error.message}`)
+        this.showErrorAlert(error.message)
       },
-      complete: () => {
-        console.log("Cerrar spinner")
-      }
+      complete: () => { }
     })
   }
 
@@ -79,11 +75,9 @@ export class FoodGridComponent extends SpinnerAbstraction implements OnInit {
         this.categories = categories
       },
       error: (error: HttpErrorResponse) => {
-        console.error(`Sucedió un error: ${error.message}`)
+        this.showErrorAlert(error.message)
       },
-      complete: () => {
-        console.log("Cerrar spinner")
-      }
+      complete: () => { }
     })
   }
 
@@ -94,11 +88,9 @@ export class FoodGridComponent extends SpinnerAbstraction implements OnInit {
         this.areas = areas
       },
       error: (error: HttpErrorResponse) => {
-        console.error(`Sucedió un error: ${error.message}`)
+        this.showErrorAlert(error.message)
       },
-      complete: () => {
-        console.log("Cerrar spinner")
-      }
+      complete: () => { }
     })
   }
 
@@ -109,11 +101,9 @@ export class FoodGridComponent extends SpinnerAbstraction implements OnInit {
         this.ingredients = ingredients
       },
       error: (error: HttpErrorResponse) => {
-        console.error(`Sucedió un error: ${error.message}`)
+        this.showErrorAlert(error.message)
       },
-      complete: () => {
-        console.log("Cerrar spinner")
-      }
+      complete: () => { }
     })
   }
 
@@ -124,8 +114,8 @@ export class FoodGridComponent extends SpinnerAbstraction implements OnInit {
         this.foods = foods
       },
       error: (error: HttpErrorResponse) => {
-        console.error(`Sucedió un error: ${error.message}`)
         this.closeSpinnerWithDelay()
+        this.showErrorAlertWithDelay(error.message)
       },
       complete: () => {
         this.closeSpinnerWithDelay()
@@ -140,8 +130,8 @@ export class FoodGridComponent extends SpinnerAbstraction implements OnInit {
         this.foods = foods
       },
       error: (error: HttpErrorResponse) => {
-        console.error(`Sucedió un error: ${error.message}`)
         this.closeSpinnerWithDelay()
+        this.showErrorAlertWithDelay(error.message)
       },
       complete: () => {
         this.closeSpinnerWithDelay()
@@ -156,8 +146,8 @@ export class FoodGridComponent extends SpinnerAbstraction implements OnInit {
         this.foods = foods
       },
       error: (error: HttpErrorResponse) => {
-        console.error(`Sucedió un error: ${error.message}`)
         this.closeSpinnerWithDelay()
+        this.showErrorAlertWithDelay(error.message)
       },
       complete: () => {
         this.closeSpinnerWithDelay()
@@ -175,8 +165,8 @@ export class FoodGridComponent extends SpinnerAbstraction implements OnInit {
           this.foods = foods
         },
         error: (error: HttpErrorResponse) => {
-          console.error(`Sucedió un error: ${error.message}`)
           this.closeSpinnerWithDelay()
+          this.showErrorAlertWithDelay(error.message)
         },
         complete: () => {
           this.closeSpinnerWithDelay()
@@ -184,8 +174,7 @@ export class FoodGridComponent extends SpinnerAbstraction implements OnInit {
       })
     } else {
       this.closeSpinnerWithDelay()
-      alert("error")
+      this.showErrorAlertWithDelay()
     }
   }
-
 }

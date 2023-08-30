@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FoodService } from '../../services/food.service';
 import { Food } from 'src/app/core/models/food';
 import { HttpErrorResponse } from '@angular/common/http';
-import { SpinnerAbstraction } from 'src/app/core/abstractions/spinner.abstraction';
+import { UtilsAbstraction } from 'src/app/core/abstractions/utils.abstraction';
 import { Category } from 'src/app/core/models/category';
 
 @Component({
@@ -11,7 +11,7 @@ import { Category } from 'src/app/core/models/category';
   templateUrl: './food-detail.component.html',
   styleUrls: ['./food-detail.component.css']
 })
-export class FoodDetailComponent extends SpinnerAbstraction implements OnInit {
+export class FoodDetailComponent extends UtilsAbstraction implements OnInit {
 
   activatedRoute: ActivatedRoute = inject(ActivatedRoute)
   foodService: FoodService = inject(FoodService)
@@ -36,15 +36,13 @@ export class FoodDetailComponent extends SpinnerAbstraction implements OnInit {
         this.food = result
       },
       error: (error: HttpErrorResponse) => {
-        console.error(`Sucedió un error: ${error.message}`)
         this.closeSpinnerWithDelay()
-
+        this.showErrorAlertWithDelay(error.message)
       },
       complete: () => {
         this.closeSpinnerWithDelay()
       }
     })
-
   }
 
   getCategoryDetails(categoryName: String) {
@@ -55,8 +53,8 @@ export class FoodDetailComponent extends SpinnerAbstraction implements OnInit {
         categoryFound && console.log(categoryFound)
       },
       error: (error: HttpErrorResponse) => {
-        console.error(`Sucedió un error: ${error.message}`)
         this.closeSpinnerWithDelay()
+        this.showErrorAlertWithDelay(error.message)
       },
       complete: () => {
         this.closeSpinnerWithDelay()

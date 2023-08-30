@@ -10,6 +10,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FoodComponent } from './food.component'
 import { SharedModule } from 'src/app/shared/shared.module';
+import { AngularToastifyModule } from 'angular-toastify';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     BrowserAnimationsModule,
     HttpClientModule,
     NgxSpinnerModule,
-    SharedModule
+    SharedModule,
+    AngularToastifyModule
   ]
 })
 export class FoodModule { }
