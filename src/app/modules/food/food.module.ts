@@ -7,7 +7,9 @@ import { FoodCardComponent } from './components/food-card/food-card.component';
 import { FoodGridComponent } from './components/food-grid/food-grid.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FoodComponent } from './food.component'
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -15,13 +17,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
     FoodDetailComponent,
     FoodCardComponent,
     FoodGridComponent,
+    FoodComponent,
   ],
   imports: [
     CommonModule,
     FoodRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    SharedModule
   ]
 })
 export class FoodModule { }

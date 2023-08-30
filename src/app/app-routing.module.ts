@@ -4,8 +4,12 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'foods',
+    redirectTo: 'auth',
     pathMatch: 'full'
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./modules/auth/auth-routing.module').then((module) => module.AuthRoutingModule)
   },
   {
     path: 'foods',
