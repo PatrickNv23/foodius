@@ -41,6 +41,10 @@
         {{ingredient.title}}
       </option>
     </select>
+    <input type="text" name="foodSearch" placeholder="Seach a food" #foodSearch>
+    <button (click)="getFoodsByName(foodSearch.value)">
+      Search
+    </button>
   </section>
 
   <!-- food grid -->

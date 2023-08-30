@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, share } from 'rxjs/operators';
 import { API_URL, STRING_INGREDIENT_PROPERTY } from 'src/app/core/constants/constanst';
@@ -89,7 +90,7 @@ export class FoodService {
 
   // GET DATA TO SELECTS (CATEGORIES, AREAS, INGREDIENTS)
 
-  getFirstTenCategories(): Observable<Array<Category>> {
+  getCategories(): Observable<Array<Category>> {
     return this.http.get<Array<Category>>(`${API_URL}/categories.php`).pipe(
       map((result: any) => {
         let categories: Array<Category> = new Array<Category>()
@@ -104,7 +105,7 @@ export class FoodService {
           categories.push(category)
         })
 
-        return categories.slice(0, 10)
+        return categories
       }),
       share()
     )
@@ -140,22 +141,23 @@ export class FoodService {
 
   // FILTERS (NAME, CATEGORY, AREA, INGREDIENT)
 
-  getFoodByName(name: String): Observable<Food> {
-    return this.http.get<Food>(`${API_URL}/search.php?s=${name}`).pipe(
-      map((result: any) => {
+  getFoodsByName(name: String): Observable<Array<Food>> {
+    return this.http.get<Array<Food>>(`${API_URL}/search.php?s=${name}`).pipe(
+      map((results: any) => {
 
-        let food = new Food()
-        food.id = result.meals[0].idMeal
-        food.title = result.meals[0].strMeal
-        food.category = result.meals[0].strCategory
-        food.area = result.meals[0].strArea
-        food.instructions = result.meals[0].strInstructions
-        food.imageUrl = result.meals[0].strMealThumb
-        food.youtubeUrl = result.meals[0].strYoutube
-        food.ingredients = this.getIngredientsFromOneFood(result.meals[0])
-        food.tags = this.getTags(result.meals[0])
+        let foods = new Array<Food>()
 
-        return food
+        Array.from(results.meals).forEach((result: any) => {
+
+          let food = new Food()
+          food.id = result.idMeal
+          food.title = result.strMeal
+          food.imageUrl = result.strMealThumb
+
+          foods.push(food)
+        })
+
+        return foods
       }),
       share()
     )

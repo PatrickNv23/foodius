@@ -73,7 +73,7 @@ export class FoodGridComponent extends SpinnerAbstraction implements OnInit {
   }
 
   getCategories() {
-    this.foodService.getFirstTenCategories().subscribe({
+    this.foodService.getCategories().subscribe({
       next: (categories: Array<Category>) => {
         console.log(categories)
         this.categories = categories
@@ -163,6 +163,29 @@ export class FoodGridComponent extends SpinnerAbstraction implements OnInit {
         this.closeSpinnerWithDelay()
       }
     })
+  }
+
+  getFoodsByName(name: String) {
+
+    this.spinner.show()
+
+    if (name !== "") {
+      this.foodService.getFoodsByName(name).subscribe({
+        next: (foods: Array<Food>) => {
+          this.foods = foods
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error(`Sucedió un error: ${error.message}`)
+          this.closeSpinnerWithDelay()
+        },
+        complete: () => {
+          this.closeSpinnerWithDelay()
+        }
+      })
+    } else {
+      this.closeSpinnerWithDelay()
+      alert("error")
+    }
   }
 
 }

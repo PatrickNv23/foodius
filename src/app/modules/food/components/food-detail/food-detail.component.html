@@ -3,6 +3,9 @@
   <h2 class="font-bold text-3xl">FOOD DETAILS: {{food.title}}</h2>
   <p>Category: {{food.category}}</p>
   <p>Area: {{food.area}}</p>
+  <button (click)="getCategoryDetails(food.category)">
+    Category: {{food.category}}
+  </button>
   <p>Instructions: {{food.instructions}}</p>
 
   <div>
