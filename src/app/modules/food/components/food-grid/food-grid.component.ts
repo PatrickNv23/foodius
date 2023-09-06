@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Category } from 'src/app/core/models/category';
 import { Ingredient } from 'src/app/core/models/ingredient';
 import { UtilsAbstraction } from 'src/app/core/abstractions/utils.abstraction';
+import { MAX_WORDS } from 'src/app/core/constants/constanst';
 
 @Component({
   selector: 'app-food-grid',
@@ -48,6 +49,7 @@ export class FoodGridComponent extends UtilsAbstraction implements OnInit {
     this.foodService.getRandomFood().subscribe({
       next: (result: Food) => {
         this.randomFood = result
+        this.randomFood.instructions = result.instructions.substring(0, MAX_WORDS)
       },
       error: (error: HttpErrorResponse) => {
         this.showErrorAlert(error.message)

@@ -1,4 +1,7 @@
-<div class="border border-gray-600 p-2 my-2">
+<div class="h-80 rounded overflow-hidden shadow-lg flex flex-col justify- items-center m-2">
+  <img [src]="food.imageUrl" alt="" class="h-60 rounded">
   <p>Title: {{food.title}}</p>
-  <button (click)="navigateToDetails(food.id)">Ver detalle</button>
+  <button class="bg-white hover:bg-gray-100 border-2 rounded w-8/12 my-2" (click)="navigateToDetails(food.id)">
+    <span class="font-bold">Ver detalle</span>
+  </button>
 </div>

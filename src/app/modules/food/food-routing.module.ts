@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FoodGridComponent } from './components/food-grid/food-grid.component';
 import { FoodDetailComponent } from './components/food-detail/food-detail.component';
 import { FoodComponent } from './food.component';
+import { authGuard } from 'src/app/core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -11,11 +12,13 @@ const routes: Routes = [
     children: [
       {
         path: "",
-        component: FoodGridComponent
+        component: FoodGridComponent,
+        canActivate: [authGuard]
       },
       {
         path: ":id",
-        component: FoodDetailComponent
+        component: FoodDetailComponent,
+        canActivate: [authGuard]
       }
     ]
   }

@@ -61,7 +61,7 @@ export class AuthService {
 
   observeUserState() {
     this.firebaseAuthenticationService.authState.subscribe((userState) => {
-      userState && this.ngZone.run(() => this.router.navigate(['dashboard']))
+      userState && this.ngZone.run(() => this.router.navigate(['foods']))
     })
   }
 
@@ -75,7 +75,7 @@ export class AuthService {
   logOut() {
     return this.firebaseAuthenticationService.signOut().then(() => {
       localStorage.removeItem('user');
-      this.router.navigate(['login']);
+      this.router.navigate(['auth']);
     })
   }
 }
