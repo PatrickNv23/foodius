@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
@@ -9,8 +10,13 @@ import { AuthService } from 'src/app/core/services/auth.service';
 export class HeaderComponent {
 
   private authService: AuthService = inject(AuthService)
+  private router: Router = inject(Router)
 
   logOut() {
     this.authService.logOut()
+  }
+
+  redirectToFoodsGrid() {
+    this.router.navigate(['foods'])
   }
 }
