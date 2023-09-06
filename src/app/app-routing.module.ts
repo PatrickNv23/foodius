@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NotFoundComponent } from './shared/standalone/notfound/notfound.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: 'foods',
     loadChildren: () => import('./modules/food/food-routing.module').then((module) => module.FoodRoutingModule)
+  },
+  {
+    path: '**',
+    loadComponent: () => import('./shared/standalone/notfound/notfound.component').then((component) => component.NotFoundComponent)
   }
 ];
 

@@ -1,19 +1,69 @@
-<section class="bg-slate-400">
-  <h2 class="font-bold text-3xl">FOOD DETAILS: {{food.title}}</h2>
-  <p>Category: {{food.category}}</p>
-  <p>Area: {{food.area}}</p>
-  <button (click)="getCategoryDetails(food.category)">
-    Category: {{food.category}}
-  </button>
-  <p>Instructions: {{food.instructions}}</p>
+<!-- modal -->
+<div #modal class="overflow-y-auto hidden fixed inset-0" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="flex items-end justify-center min- px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+    <div
+      class="inline-block p-5 overflow-hidden text-left align-bottom transition-all transform bg-gray-50 rounded-lg shadow-2xl lg:p-16 sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
+      <div>
+        <div class="text-left">
+          <div class="text-center">
+            <p class="mb-8 text-2xl font-semibold leading-none tracking-tighter text-neutral-600">
+              {{category!.title}}
+            </p>
+            <div class="w-full h-auto flex justify-center items-center">
+              <img [src]="category!.imageUrl" alt="category" class="w-50 h-50">
+            </div>
+            <p class="mt-1 text-sm text-gray-500">
+              {{category!.description}}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="justify-between w-full mx-auto mt-4 overflow-hidden rounded-lg wt-10 sm:flex">
+        <div class="flex flex-row justify-center w-full">
+          <button (click)="closeCategoryDetails()"
+            class="border-2 border-black rounded flex items-center justify-center px-4 py-4 text-base font-normal text-white bg-white lg:w-1/3 hover:bg-gray-100 sm:text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+              <path fill="#F44336" d="M21.5 4.5H26.501V43.5H21.5z" transform="rotate(45.001 24 24)"></path>
+              <path fill="#F44336" d="M21.5 4.5H26.5V43.501H21.5z" transform="rotate(135.008 24 24)"></path>
+            </svg>
+            <span class="text-black">Close</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <div>
-    <h2 class="text-2xl font-bold">INGREDIENTS</h2>
-    <ul>
+<!-- food random detail -->
+<section class="flex flex-col items-center bg-gray-50">
+  <article class="w-10/12 rounded shadow-md grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 my-3 border p-2">
+    <div class="flex items-center justify-center">
+      <img [src]="food.imageUrl" alt="" class="object-cover w-10/12 rounded">
+    </div>
+    <div>
+      <h2 class="font-bold text-3xl text-center">{{food.title}}</h2>
+      <div class="flex justify-center">
+        <div class="flex items-center hover:cursor-pointer hover:underline" (click)="showCategoryDetails()">
+          <img src="assets/icons/category.svg" class="w-5 h-5" alt="">
+          <span class="pl-1">{{food.category}}</span>
+        </div>
+        <div class="flex items-center ml-2 hover:cursor-pointer hover:underline">
+          <img src="assets/icons/area.svg" class="w-5 h-5" alt="">
+          <span class="pl-1">{{food.area}}</span>
+        </div>
+      </div>
+      <h2 class="font-bold">Instructions</h2>
+      <p>{{food.instructions}}</p>
+    </div>
+  </article>
+
+  <article class="w-10/12 rounded shadow-md my-3 border p-2">
+    <h2 class="text-2xl font-bold py-3">INGREDIENTS</h2>
+    <ul class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-4 grid-rows-4 gap-2 text-center">
       <ng-container *ngFor="let ingredient of food.ingredients">
-        <li>- {{ingredient}}</li>
+        <li class="bg-white border-gray-500 border hover:bg-slate-100 hover:cursor-pointer rounded h-auto w-auto">
+          {{ingredient}}</li>
       </ng-container>
     </ul>
-
-  </div>
+  </article>
 </section>

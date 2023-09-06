@@ -1,12 +1,12 @@
-<main class="flex flex-col items-center">
+<main class="flex flex-col items-center bg-gray-50">
   <!-- food random detail -->
-  <section class=" w-10/12 rounded shadow-md grid grid-cols-2 my-3 border p-2">
+  <section class=" w-10/12 rounded shadow-md grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 my-3 border p-2">
     <div class="flex items-center justify-center">
       <img [src]="randomFood.imageUrl" alt="" class="object-cover w-10/12 rounded">
     </div>
     <div>
-      <h2 class="font-bold text-3xl">{{randomFood.title}}</h2>
-      <div class="flex">
+      <h2 class="font-bold text-3xl text-center">{{randomFood.title}}</h2>
+      <div class="flex justify-center">
         <div class="flex items-center">
           <img src="assets/icons/category.svg" class="w-5 h-5" alt="">
           <span class="pl-1">{{randomFood.category}}</span>
@@ -21,7 +21,7 @@
 
       <div>
         <h2 class="text-2xl font-bold py-3">INGREDIENTS</h2>
-        <ul class="grid grid-cols-4 grid-rows-4 gap-2 text-center">
+        <ul class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-4 grid-rows-4 gap-2 text-center">
           <ng-container *ngFor="let ingredient of randomFood.ingredients">
             <li class="bg-white border-gray-500 border hover:bg-slate-100 hover:cursor-pointer rounded h-auto">
               {{ingredient}}</li>
@@ -33,36 +33,48 @@
   </section>
 
   <!-- filtros -->
-  <section>
-    <select #filterCategory class="mx-2" (change)="filterFoodsByCategory(filterCategory.value)">
-      <option value="">Elige una categoría</option>
-      <option [value]="category.title" *ngFor="let category of categories">
-        {{category.title}}
-      </option>
-    </select>
+  <section
+    class="w-10/12 sm:flex sm:flex-col sm:justify-center md:flex-row lg:flex-row md:justify-between lg:justify-between">
 
-    <select #filterArea class="mx-2" (change)="filterFoodsByArea(filterArea.value)">
-      <option value="">Elige un área</option>
-      <option [value]="area.strArea" *ngFor="let area of areas">
-        {{area.strArea}}
-      </option>
-    </select>
+    <div class="flex flex-col md:flex-row lg:flex-row md:items-center lg:items-center">
+      <select class="bg-white appearance-none my-2" #filterCategory class="mx-2"
+        (change)="filterFoodsByCategory(filterCategory.value)">
+        <option value="">Elige una categoría</option>
+        <option [value]="category.title" *ngFor="let category of categories">
+          {{category.title}}
+        </option>
+      </select>
 
-    <select #filterIngredient class="mx-2" (change)="filterFoodsByIngredient(filterIngredient.value)">
-      <option value="">Elige una ingrediente</option>
-      <option [value]="ingredient.title" *ngFor="let ingredient of ingredients">
-        {{ingredient.title}}
-      </option>
-    </select>
-    <input type="text" name="foodSearch" placeholder="Seach a food" #foodSearch>
-    <button (click)="getFoodsByName(foodSearch.value)">
-      Search
-    </button>
+      <select #filterArea class="mx-2 my-2" (change)="filterFoodsByArea(filterArea.value)">
+        <option value="">Elige un área</option>
+        <option [value]="area.strArea" *ngFor="let area of areas">
+          {{area.strArea}}
+        </option>
+      </select>
+
+      <select #filterIngredient class="mx-2 my-2" (change)="filterFoodsByIngredient(filterIngredient.value)">
+        <option value="">Elige un ingrediente</option>
+        <option [value]="ingredient.title" *ngFor="let ingredient of ingredients">
+          {{ingredient.title}}
+        </option>
+      </select>
+    </div>
+
+    <div class="sm:w-full flex justify-between md:w-5/12 lg:5/12">
+      <input type="text" name="foodSearch" placeholder="Search food" #foodSearch
+        class="border-none w-10/12 sm:ml-2 sm:mt-2 rounded-2xl ring-2 ring-gray-300 h-10 text-black pl-2 ml-2 mt-2">
+      <button (click)="getFoodsByName(foodSearch.value)" class="flex items-center justify-center px-4">
+        <svg class="w-6 h-6 text-gray-600" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+        </svg>
+      </button>
+    </div>
   </section>
 
   <!-- food grid -->
   <h2 class="font-bold text-3xl py-3">FOOD CATALOG</h2>
-  <section class="w-10/12 grid grid-cols-4">
+  <section class="w-10/12 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
     <app-food-card [food]="food" *ngFor="let food of foods"></app-food-card>
   </section>
 </main>
