@@ -11,3 +11,14 @@ export const authGuard: CanActivateFn =
     authService.isLoggedIn || router.navigate(["auth"]);
     return true;
   };
+
+
+export const isLoggedInGuard: CanActivateFn =
+  (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+
+    const authService = inject(AuthService);
+    const router = inject(Router);
+
+    authService.isLoggedIn && router.navigate(["foods"]);
+    return true;
+  };

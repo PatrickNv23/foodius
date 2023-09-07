@@ -6,6 +6,7 @@ import { Category } from 'src/app/core/models/category';
 import { Ingredient } from 'src/app/core/models/ingredient';
 import { UtilsAbstraction } from 'src/app/core/abstractions/utils.abstraction';
 import { MAX_WORDS } from 'src/app/core/constants/constanst';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-food-grid',
@@ -32,8 +33,8 @@ export class FoodGridComponent extends UtilsAbstraction implements OnInit {
   }
 
   ngOnInit(): void {
+    initFlowbite()
     this.spinner.show()
-
     this.getRandomFood()
     this.getFoodsByFirstLetter()
     this.getCategories()
