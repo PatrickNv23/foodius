@@ -60,7 +60,7 @@
   <article class="w-10/12 rounded shadow-md my-3 border p-2">
     <h2 class="text-2xl font-bold py-3">INGREDIENTS</h2>
     <ul class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-4 grid-rows-4 gap-2 text-center">
-      <ng-container *ngFor="let ingredient of food.ingredients">
+      <ng-container *ngFor="let ingredient of food.ingredients; trackBy: trackByIngredientId">
         <li class="bg-white border-gray-500 border hover:bg-slate-100 hover:cursor-pointer rounded h-auto w-auto">
           {{ingredient}}</li>
       </ng-container>
