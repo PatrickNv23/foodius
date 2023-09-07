@@ -1,6 +1,6 @@
 <div class="h-80 rounded overflow-hidden shadow-lg flex flex-col justify- items-center m-2">
   <img [src]="food.imageUrl" alt="foodCardItem" class="h-60 rounded">
-  <p>Title: {{food.title}}</p>
+  <p>{{food.title}}</p>
   <button class="bg-white hover:bg-gray-100 border-2 rounded w-8/12 my-2" (click)="navigateToDetails(food.id)">
     <span class="font-bold">Ver detalle</span>
   </button>

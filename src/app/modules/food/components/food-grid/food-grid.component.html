@@ -22,7 +22,7 @@
       <div>
         <h2 class="text-2xl font-bold py-3">INGREDIENTS</h2>
         <ul class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-4 grid-rows-4 gap-2 text-center">
-          <ng-container *ngFor="let ingredient of randomFood.ingredients">
+          <ng-container *ngFor="let ingredient of randomFood.ingredients; trackBy: trackByIngredientId">
             <li class="bg-white border-gray-500 border hover:bg-slate-100 hover:cursor-pointer rounded h-auto">
               {{ingredient}}</li>
           </ng-container>
@@ -36,7 +36,7 @@
   <section
     class="w-10/12 sm:flex sm:flex-col sm:justify-center md:flex-row lg:flex-row md:justify-between lg:justify-between">
     <div class="flex flex-col md:flex-row lg:flex-row md:items-center lg:items-center">
-      <button #dropdownDefaultButton id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
+      <button id="dropdownCategoriesButton" data-dropdown-toggle="categoryDropdown"
         class=" bg-gray-50 border-2 text-black hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mx-2 my-2 justify-between"
         type="button"><span>Elige una categoría</span> <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -44,9 +44,9 @@
             d="m1 1 4 4 4-4" />
         </svg></button>
       <!-- Dropdown menu -->
-      <div #dropdownMenu id="dropdown"
+      <div id="categoryDropdown"
         class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCategoriesButton">
           <ng-container *ngFor="let category of categories">
             <li>
               <a (click)="filterFoodsByCategory(category.title)"
@@ -56,7 +56,7 @@
         </ul>
       </div>
 
-      <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
+      <button id="dropdownAreasButton" data-dropdown-toggle="areaDropdown"
         class=" bg-gray-50 border-2 text-black hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mx-2 my-2 justify-between"
         type="button">Elige un área <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -64,8 +64,9 @@
             d="m1 1 4 4 4-4" />
         </svg></button>
       <!-- Dropdown menu -->
-      <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+      <div id="areaDropdown"
+        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownAreasButton">
           <ng-container *ngFor="let area of areas">
             <li>
               <a (click)="filterFoodsByArea(area.strArea)"
@@ -75,7 +76,7 @@
         </ul>
       </div>
 
-      <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
+      <button id="dropdownIngredientsButton" data-dropdown-toggle="ingredientsDropdown"
         class=" bg-gray-50 border-2 text-black hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mx-2 my-2 justify-between"
         type="button">Elige un ingrediente<svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -83,8 +84,9 @@
             d="m1 1 4 4 4-4" />
         </svg></button>
       <!-- Dropdown menu -->
-      <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+      <div id="ingredientsDropdown"
+        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownIngredientsButton">
           <ng-container *ngFor="let ingredient of ingredients">
             <li>
               <a (click)="filterFoodsByIngredient(ingredient.title)"
@@ -110,6 +112,6 @@
   <!-- food grid -->
   <h2 class="font-bold text-3xl py-3">FOOD CATALOG</h2>
   <section class="w-10/12 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
-    <app-food-card [food]="food" *ngFor="let food of foods"></app-food-card>
+    <app-food-card [food]="food" *ngFor="let food of foods; trackBy: trackByFoodId"></app-food-card>
   </section>
 </main>

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, TrackByFunction, inject } from '@angular/core';
 import { FoodService } from '../../services/food.service';
 import { Food } from 'src/app/core/models/food';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -7,15 +7,17 @@ import { Ingredient } from 'src/app/core/models/ingredient';
 import { UtilsAbstraction } from 'src/app/core/abstractions/utils.abstraction';
 import { MAX_WORDS } from 'src/app/core/constants/constanst';
 import { initFlowbite } from 'flowbite';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-food-grid',
   templateUrl: './food-grid.component.html',
   styleUrls: ['./food-grid.component.css']
 })
-export class FoodGridComponent extends UtilsAbstraction implements OnInit {
+export class FoodGridComponent extends UtilsAbstraction implements OnInit, OnDestroy {
 
   private foodService: FoodService = inject(FoodService)
+  private subscriptions!: Subscription
 
   randomFood !: Food
   foods !: Array<Food>
@@ -30,6 +32,7 @@ export class FoodGridComponent extends UtilsAbstraction implements OnInit {
     this.categories = new Array<Category>()
     this.areas = new Array<any>()
     this.ingredients = new Array<Ingredient>()
+    this.subscriptions = new Subscription()
   }
 
   ngOnInit(): void {
@@ -47,7 +50,7 @@ export class FoodGridComponent extends UtilsAbstraction implements OnInit {
   }
 
   getRandomFood() {
-    this.foodService.getRandomFood().subscribe({
+    let subscription = this.foodService.getRandomFood().subscribe({
       next: (result: Food) => {
         this.randomFood = result
         this.randomFood.instructions = result.instructions.substring(0, MAX_WORDS)
@@ -57,10 +60,11 @@ export class FoodGridComponent extends UtilsAbstraction implements OnInit {
       },
       complete: () => { }
     })
+    this.subscriptions.add(subscription)
   }
 
   getFoodsByFirstLetter() {
-    this.foodService.getFoodsByFirstLetter().subscribe({
+    let subscription = this.foodService.getFoodsByFirstLetter().subscribe({
       next: (result: Array<Food>) => {
         this.foods = result
       },
@@ -69,11 +73,14 @@ export class FoodGridComponent extends UtilsAbstraction implements OnInit {
       },
       complete: () => { }
     })
+
+    this.subscriptions.add(subscription)
   }
 
   getCategories() {
-    this.foodService.getCategories().subscribe({
+    let subscription = this.foodService.getCategories().subscribe({
       next: (categories: Array<Category>) => {
+        console.log(categories)
         this.categories = categories
       },
       error: (error: HttpErrorResponse) => {
@@ -81,11 +88,13 @@ export class FoodGridComponent extends UtilsAbstraction implements OnInit {
       },
       complete: () => { }
     })
+    this.subscriptions.add(subscription)
   }
 
   getAreas() {
-    this.foodService.getFirstTenAreas().subscribe({
+    let subscription = this.foodService.getFirstTenAreas().subscribe({
       next: (areas: any) => {
+        console.log(areas)
         this.areas = areas
       },
       error: (error: HttpErrorResponse) => {
@@ -93,11 +102,13 @@ export class FoodGridComponent extends UtilsAbstraction implements OnInit {
       },
       complete: () => { }
     })
+    this.subscriptions.add(subscription)
   }
 
   getIngredients() {
-    this.foodService.getFirstTenIngredients().subscribe({
+    let subscription = this.foodService.getFirstTenIngredients().subscribe({
       next: (ingredients: Array<Ingredient>) => {
+        console.log(ingredients)
         this.ingredients = ingredients
       },
       error: (error: HttpErrorResponse) => {
@@ -105,11 +116,12 @@ export class FoodGridComponent extends UtilsAbstraction implements OnInit {
       },
       complete: () => { }
     })
+    this.subscriptions.add(subscription)
   }
 
   filterFoodsByCategory(category: String) {
     this.spinner.show()
-    this.foodService.findByCategory(category).subscribe({
+    let subscription = this.foodService.findByCategory(category).subscribe({
       next: (foods: Array<Food>) => {
         this.foods = foods
       },
@@ -121,11 +133,12 @@ export class FoodGridComponent extends UtilsAbstraction implements OnInit {
         this.closeSpinnerWithDelay()
       }
     })
+    this.subscriptions.add(subscription)
   }
 
   filterFoodsByArea(area: String) {
     this.spinner.show()
-    this.foodService.findByArea(area).subscribe({
+    let subscription = this.foodService.findByArea(area).subscribe({
       next: (foods: Array<Food>) => {
         this.foods = foods
       },
@@ -137,11 +150,12 @@ export class FoodGridComponent extends UtilsAbstraction implements OnInit {
         this.closeSpinnerWithDelay()
       }
     })
+    this.subscriptions.add(subscription)
   }
 
   filterFoodsByIngredient(ingredient: String) {
     this.spinner.show()
-    this.foodService.findByMainIngredient(ingredient).subscribe({
+    let subscription = this.foodService.findByMainIngredient(ingredient).subscribe({
       next: (foods: Array<Food>) => {
         this.foods = foods
       },
@@ -153,6 +167,7 @@ export class FoodGridComponent extends UtilsAbstraction implements OnInit {
         this.closeSpinnerWithDelay()
       }
     })
+    this.subscriptions.add(subscription)
   }
 
   getFoodsByName(name: String) {
@@ -160,7 +175,7 @@ export class FoodGridComponent extends UtilsAbstraction implements OnInit {
     this.spinner.show()
 
     if (name !== "") {
-      this.foodService.getFoodsByName(name).subscribe({
+      let subscription = this.foodService.getFoodsByName(name).subscribe({
         next: (foods: Array<Food>) => {
           this.foods = foods
         },
@@ -172,9 +187,19 @@ export class FoodGridComponent extends UtilsAbstraction implements OnInit {
           this.closeSpinnerWithDelay()
         }
       })
+      this.subscriptions.add(subscription)
     } else {
       this.closeSpinnerWithDelay()
       this.showErrorAlertWithDelay()
     }
   }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe()
+  }
+
+  trackByIngredientId: TrackByFunction<Ingredient>
+    = (index: number, ingredient: Ingredient) => ingredient.id
+
+  trackByFoodId: TrackByFunction<Food> = (index: number, food: Food) => food.id
 }
