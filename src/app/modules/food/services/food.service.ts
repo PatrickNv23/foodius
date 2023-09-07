@@ -70,7 +70,6 @@ export class FoodService {
   getFoodById(id: String): Observable<Food> {
     return this.http.get<Food>(`${API_URL}/lookup.php?i=${id}`).pipe(
       map((result: any) => {
-        console.log(result)
         let food = new Food()
         food.id = result.meals[0].idMeal
         food.title = result.meals[0].strMeal

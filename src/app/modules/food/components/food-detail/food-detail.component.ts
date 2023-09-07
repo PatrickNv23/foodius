@@ -58,7 +58,6 @@ export class FoodDetailComponent extends UtilsAbstraction implements OnInit {
         categoryFound ?? alert("hola")
         if (categoryFound) {
           this.category = categoryFound
-          console.log(this.category)
         }
 
       },

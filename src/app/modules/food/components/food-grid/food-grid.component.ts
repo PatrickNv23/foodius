@@ -74,7 +74,6 @@ export class FoodGridComponent extends UtilsAbstraction implements OnInit {
   getCategories() {
     this.foodService.getCategories().subscribe({
       next: (categories: Array<Category>) => {
-        console.log(categories)
         this.categories = categories
       },
       error: (error: HttpErrorResponse) => {
@@ -87,7 +86,6 @@ export class FoodGridComponent extends UtilsAbstraction implements OnInit {
   getAreas() {
     this.foodService.getFirstTenAreas().subscribe({
       next: (areas: any) => {
-        console.log(areas)
         this.areas = areas
       },
       error: (error: HttpErrorResponse) => {
@@ -100,7 +98,6 @@ export class FoodGridComponent extends UtilsAbstraction implements OnInit {
   getIngredients() {
     this.foodService.getFirstTenIngredients().subscribe({
       next: (ingredients: Array<Ingredient>) => {
-        console.log(ingredients)
         this.ingredients = ingredients
       },
       error: (error: HttpErrorResponse) => {
