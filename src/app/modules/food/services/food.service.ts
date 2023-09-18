@@ -1,8 +1,7 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { catchError, map, share } from 'rxjs/operators';
+import { map, share } from 'rxjs/operators';
 import { API_URL, STRING_INGREDIENT_PROPERTY } from 'src/app/core/constants/constanst';
 import { Category } from 'src/app/core/models/category';
 import { Food } from 'src/app/core/models/food';

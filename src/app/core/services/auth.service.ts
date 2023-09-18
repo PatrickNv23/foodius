@@ -2,22 +2,29 @@ import { Injectable, NgZone } from '@angular/core';
 import { GoogleAuthProvider } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  userData: any;
+  userData = new User();
 
   constructor(
     private firebaseAuthenticationService: AngularFireAuth,
     private router: Router,
     private ngZone: NgZone
   ) {
+
     // OBSERVER save user in localStorage (log-in) and setting up null when log-out
-    this.firebaseAuthenticationService.authState.subscribe((user) => {
-      if (user) {
-        this.userData = user;
+    this.firebaseAuthenticationService.authState.subscribe((userResponse) => {
+
+      if (userResponse) {
+
+        this.userData.email = userResponse.email as string;
+        this.userData.emailVerified = userResponse.emailVerified;
+        this.userData.userName = userResponse.displayName as string;
+
         localStorage.setItem('user', JSON.stringify(this.userData));
       } else {
         localStorage.setItem('user', 'null');
@@ -30,12 +37,18 @@ export class AuthService {
   logInWithEmailAndPassword(email: string, password: string) {
     return this.firebaseAuthenticationService.signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        this.userData = userCredential.user
+        this.setUser(userCredential)
         this.observeUserState()
       })
       .catch((error) => {
         alert(error.message);
       })
+  }
+
+  setUser(userCredential: any) {
+    this.userData.email = userCredential.user?.email as string;
+    this.userData.emailVerified = userCredential.user?.emailVerified;
+    this.userData.userName = userCredential.user?.displayName as string;
   }
 
   // log-in with google
@@ -51,7 +64,7 @@ export class AuthService {
   signUpWithEmailAndPassword(email: string, password: string) {
     return this.firebaseAuthenticationService.createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        this.userData = userCredential.user
+        this.setUser(userCredential)
         this.observeUserState()
       })
       .catch((error) => {
