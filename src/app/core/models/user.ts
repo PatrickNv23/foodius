@@ -1,5 +1,5 @@
 export class User {
-  id !: string;
   email !: string;
+  emailVerified !: boolean;
   userName !: string;
 }
