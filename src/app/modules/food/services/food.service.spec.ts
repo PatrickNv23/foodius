@@ -22,22 +22,20 @@ describe('FoodService', () => {
     })
 
     foodService = TestBed.inject(FoodService)
+    httpClientMock.get.mockReturnValue(of(randomFoodMock))
   })
 
   // sync
   it('getRandomFood should has been called', () => {
 
-    httpClientMock.get.mockReturnValue(of(randomFoodMock))
-
     foodService.getRandomFood()
     expect(httpClientMock.get).toBeTruthy();
     expect(httpClientMock.get).toHaveBeenCalled()
+
   })
 
   // async - observables - http api request 
   it('getRandomFood should return one', (done) => {
-
-    httpClientMock.get.mockReturnValue(of(randomFoodMock))
 
     foodService.getRandomFood().subscribe((randomFood: Food) => {
 
@@ -49,8 +47,6 @@ describe('FoodService', () => {
 
   // async - observables
   it('getRandomFood should return a Food object', (done) => {
-
-    httpClientMock.get.mockReturnValue(of(randomFoodMock))
 
     foodService.getRandomFood().subscribe((randomFood: Food) => {
 

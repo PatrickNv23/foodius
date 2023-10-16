@@ -1,21 +1,30 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { FooterComponent } from './footer.component';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { FooterComponent } from "./footer.component";
 
 describe('FooterComponent', () => {
-  let component: FooterComponent;
-  let fixture: ComponentFixture<FooterComponent>;
+  let fixture: ComponentFixture<FooterComponent>
+  let footerComponent: FooterComponent
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [FooterComponent]
-    });
+    TestBed.configureTestingModule({}).compileComponents();
     fixture = TestBed.createComponent(FooterComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    footerComponent = fixture.componentInstance;
+  })
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  it('Should exist', () => {
+    expect(footerComponent).toBeTruthy()
+  })
+
+  it(`Should be render 'PatrickNv23'`, () => {
+
+    fixture.detectChanges()
+
+    let compiled = fixture.nativeElement as HTMLElement;
+
+    expect(compiled.querySelector('span')?.innerHTML).toEqual('PatrickNv23')
+  })
+
+})
+
+
+
